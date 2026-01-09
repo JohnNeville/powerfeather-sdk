@@ -43,6 +43,7 @@
 
 #include "Utils/Result.h"
 #include "Utils/Mutex.h"
+#include <driver/gpio.h>
 
 #include "BQ2562x.h"
 #include "LC709204F.h"

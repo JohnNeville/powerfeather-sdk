@@ -39,6 +39,7 @@
 
 #include <soc/reset_reasons.h>
 #include <esp_log.h>
+#include <driver/gpio.h>
 
 #include "Mainboard.h"
 
