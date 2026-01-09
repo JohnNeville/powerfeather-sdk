@@ -1,8 +1,8 @@
 {
     "name": "PowerFeather-SDK",
-    "version": "1.1.1",
+    "version": "1.1.2-local",
     "keywords": "powerfeather",
-    "description": "Software development kit for PowerFeather boards",
+    "description": "Software development kit for PowerFeather boards (modernized I2C driver)",
     "repository": {
         "type": "git",
         "url": "https://github.com/PowerFeather/powerfeather-sdk.git"

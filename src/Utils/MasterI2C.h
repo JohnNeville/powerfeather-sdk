@@ -37,7 +37,7 @@
 #include <cstring>
 
 #ifndef ARDUINO
-#include <driver/i2c.h> // TODO: need to use updated driver
+#include <driver/i2c_master.h>
 #endif
 
 namespace PowerFeather
@@ -47,7 +47,7 @@ namespace PowerFeather
     public:
 #ifndef ARDUINO
         MasterI2C(uint8_t port, uint8_t sdaPin, uint8_t sclPin, uint32_t freq) :
-                _port(static_cast<i2c_port_t>(port)), _sdaPin(sdaPin), _sclPin(sclPin), _freq(freq) {};
+                _port(port), _sdaPin(sdaPin), _sclPin(sclPin), _freq(freq) {};
 #else
         MasterI2C(uint8_t port, uint8_t sdaPin, uint8_t sclPin, uint32_t freq) :
                 _port(port), _sdaPin(sdaPin), _sclPin(sclPin), _freq(freq) {};
@@ -60,7 +60,10 @@ namespace PowerFeather
 
     protected:
 #ifndef ARDUINO
-        i2c_port_t _port;
+        i2c_master_bus_handle_t _bus_handle;
+        i2c_master_dev_handle_t _dev_handle_charger;
+        i2c_master_dev_handle_t _dev_handle_fuel_gauge;
+        uint8_t _port;
 #else
         uint8_t _port;
 #endif
