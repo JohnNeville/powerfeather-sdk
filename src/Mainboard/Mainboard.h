@@ -532,6 +532,40 @@ namespace PowerFeather
         Result getBatteryTimeLeft(int &minutes);
 
         /**
+         * @brief Read battery fuel gauge alarm and status flags.
+         *
+         * Reads the battery status register and decodes alarm flags from the LC709204F fuel gauge.
+         *
+         * \a VSQT must be enabled prior to calling this function, else \c Result::InvalidState is returned.
+         *
+         * A non-zero \p capacity or \p type of \c BatteryType::ICR18650_26H / \c BatteryType::UR18650ZY
+         * should have been specified when \c MainBoard::init was called, else \c Result::InvalidState is returned.
+         *
+         * The battery fuel gauge must be enabled prior to calling this function, else \c Result::InvalidState is returned.
+         *
+         * @param[out] status Raw LC709204F BatteryStatus register value.
+         *
+         * @return Result Returns \c Result::Ok if the status was read successfully;
+         * returns a value other than \c Result::Ok if not.
+         */
+        Result getBatteryFuelGaugeStatus(uint16_t &status);
+
+        /**
+         * @brief Check if low charge alarm is active.
+         */
+        Result getBatteryLowChargeAlarm(bool &active);
+
+        /**
+         * @brief Check if low voltage alarm is active.
+         */
+        Result getBatteryLowVoltageAlarm(bool &active);
+
+        /**
+         * @brief Check if high voltage alarm is active.
+         */
+        Result getBatteryHighVoltageAlarm(bool &active);
+
+        /**
          * @brief Measure battery temperature.
          *
          * Requires a Semitec 103AT thermistor to be connected to the \a TS pin and attached to the battery

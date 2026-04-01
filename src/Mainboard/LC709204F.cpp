@@ -121,6 +121,17 @@ namespace PowerFeather
         return false;
     }
 
+    bool LC709204F::_getAlarmStatus(BatteryStatus alarm, bool &active)
+    {
+        uint16_t value = 0;
+        if (_readReg(Registers::BatteryStatus, value))
+        {
+            active = (value & (0b1 << static_cast<uint8_t>(alarm))) != 0;
+            return true;
+        }
+        return false;
+    }
+
     bool LC709204F::getOperationMode(bool &enabled)
     {
         uint16_t value = 0;
@@ -190,6 +201,26 @@ namespace PowerFeather
             return true;
         }
         return false;
+    }
+
+    bool LC709204F::getBatteryStatus(uint16_t &status)
+    {
+        return _readReg(Registers::BatteryStatus, status);
+    }
+
+    bool LC709204F::getLowRSOCAlarm(bool &active)
+    {
+        return _getAlarmStatus(BatteryStatus::LowRSOC, active);
+    }
+
+    bool LC709204F::getLowCellVoltageAlarm(bool &active)
+    {
+        return _getAlarmStatus(BatteryStatus::LowCellVoltage, active);
+    }
+
+    bool LC709204F::getHighCellVoltageAlarm(bool &active)
+    {
+        return _getAlarmStatus(BatteryStatus::HighCellVoltage, active);
     }
 
     bool LC709204F::setOperationMode(bool enable)

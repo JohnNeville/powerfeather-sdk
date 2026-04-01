@@ -532,6 +532,54 @@ namespace PowerFeather
         return Result::NotReady;
     }
 
+    Result Mainboard::getBatteryFuelGaugeStatus(uint16_t &status)
+    {
+        TRY_LOCK(_mutex);
+        RET_IF_FALSE(_initDone, Result::InvalidState);
+        RET_IF_FALSE(_sqtEnabled, Result::InvalidState);
+        RET_IF_FALSE(_batteryCapacity && _isFuelGaugeEnabled(), Result::InvalidState);
+        RET_IF_ERR(_initFuelGauge());
+        RET_IF_FALSE(getFuelGauge().getBatteryStatus(status), Result::Failure);
+        ESP_LOGD(TAG, "Battery fuel gauge status: 0x%04x.", status);
+        return Result::Ok;
+    }
+
+    Result Mainboard::getBatteryLowChargeAlarm(bool &active)
+    {
+        TRY_LOCK(_mutex);
+        RET_IF_FALSE(_initDone, Result::InvalidState);
+        RET_IF_FALSE(_sqtEnabled, Result::InvalidState);
+        RET_IF_FALSE(_batteryCapacity && _isFuelGaugeEnabled(), Result::InvalidState);
+        RET_IF_ERR(_initFuelGauge());
+        RET_IF_FALSE(getFuelGauge().getLowRSOCAlarm(active), Result::Failure);
+        ESP_LOGD(TAG, "Battery low charge alarm active: %d.", active);
+        return Result::Ok;
+    }
+
+    Result Mainboard::getBatteryLowVoltageAlarm(bool &active)
+    {
+        TRY_LOCK(_mutex);
+        RET_IF_FALSE(_initDone, Result::InvalidState);
+        RET_IF_FALSE(_sqtEnabled, Result::InvalidState);
+        RET_IF_FALSE(_batteryCapacity && _isFuelGaugeEnabled(), Result::InvalidState);
+        RET_IF_ERR(_initFuelGauge());
+        RET_IF_FALSE(getFuelGauge().getLowCellVoltageAlarm(active), Result::Failure);
+        ESP_LOGD(TAG, "Battery low voltage alarm active: %d.", active);
+        return Result::Ok;
+    }
+
+    Result Mainboard::getBatteryHighVoltageAlarm(bool &active)
+    {
+        TRY_LOCK(_mutex);
+        RET_IF_FALSE(_initDone, Result::InvalidState);
+        RET_IF_FALSE(_sqtEnabled, Result::InvalidState);
+        RET_IF_FALSE(_batteryCapacity && _isFuelGaugeEnabled(), Result::InvalidState);
+        RET_IF_ERR(_initFuelGauge());
+        RET_IF_FALSE(getFuelGauge().getHighCellVoltageAlarm(active), Result::Failure);
+        ESP_LOGD(TAG, "Battery high voltage alarm active: %d.", active);
+        return Result::Ok;
+    }
+
     Result Mainboard::getBatteryTemperature(float &celsius)
     {
         TRY_LOCK(_mutex);

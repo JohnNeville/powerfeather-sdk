@@ -97,6 +97,10 @@ namespace PowerFeather
         bool getCycles(uint16_t &cycles);
         bool getSOH(uint8_t &percent);
         bool getInitialized(bool& state);
+        bool getBatteryStatus(uint16_t &status);
+        bool getLowRSOCAlarm(bool &active);
+        bool getLowCellVoltageAlarm(bool &active);
+        bool getHighCellVoltageAlarm(bool &active);
         bool setOperationMode(bool enable);
         bool setAPA(uint16_t capacity, ChangeOfParameter changeOfParam);
         bool setChangeOfParameter(ChangeOfParameter changeOfParam);
@@ -147,6 +151,7 @@ namespace PowerFeather
         bool _readReg(Registers reg, uint16_t &data);
         bool _writeReg(Registers reg, uint16_t data);
         uint8_t _computeCRC8(uint8_t *data, int len);
+        bool _getAlarmStatus(BatteryStatus alarm, bool &active);
 
         bool _setVoltageAlarm(Registers reg, uint16_t voltage);
         bool _clearAlarm(BatteryStatus alarm);
